@@ -1,0 +1,19 @@
+{
+    "token_signer_secret": "sjNCNAK2FR1nwSrvQXIvGyJlsgDgPnUKIsqP3APS",
+    "header_signer_secret": "mXQqrXM71cmqswBI1P2B91aNzd0PTCCorXH5KwXN",
+    "secret_crypto.password": "djxnVcxJsFjUA8tvmnrhZh31Fy4Z4VqK8QzyjzS2",
+    "static_credentials": {
+        "internalClient": {
+            "id": "internalClient",
+            "clientId": 0,
+            "type": "client",
+            "signatureCredentials": {
+                "type": "symmetric",
+                "mac_algorithm": "hmac-sha-256",
+                "access_token": "internalClient",
+                "mac_key": "s9amYWXH1u0cSv4imrQEUnT6ljiJow8qbJ08q9vx"
+            },
+            "permissions": ["internal_api"]
+        }
+    }
+}

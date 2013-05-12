@@ -1,29 +1,16 @@
 var ServiceContainer = require('lib/serviceContainer'), container = new ServiceContainer();
 module.exports = container
     .set({
-        'token_signer_secret': '123123asdasd',
-        'header_signer_secret': 'header secret',
-        'secret_crypto.password': 'asdasdqweqwe',
+        'token_signer_secret': '',
+        'header_signer_secret': '',
+        'secret_crypto.password': '',
         'secret_crypto.algorithm': 'AES-256-CBC',
         'app_trust_proxy': false,
         'app_port': 3000,
         'client_secret_size': 30,
         'application_secret_size': 30,
         'application_credentials_algorithm': 'hmac-sha-256',
-        'static_credentials': {
-            '123': {
-                id: '123',
-                clientId: 1,
-                type: 'client',
-                signatureCredentials: {
-                    type: 'symmetric',
-                    mac_algorithm: 'hmac-sha-256',
-                    access_token: '123',
-                    mac_key: 'secret'
-                },
-                permissions: ['internal_api']
-            }
-        }
+        'static_credentials': {}
     })
 
     .set('redis_client', function() {
