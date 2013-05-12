@@ -1,0 +1,16 @@
+{
+    "name": "maba_oauth_commerce_proxy",
+    "version": "0.1.0",
+    "dependencies": {
+        "express": "3.x",
+        "hiredis": "*",
+        "redis": "*",
+        "broadway": "*",
+        "qs": "*",
+        "lodash": "*",
+        "async": "*",
+        "deferred": "*",
+        "backbone": "*",
+        "backbone-relational": "*"
+    }
+}
