@@ -11,6 +11,7 @@
         "async": "*",
         "deferred": "*",
         "backbone": "*",
-        "backbone-relational": "*"
+        "backbone-relational": "*",
+        "connect-powered-by": "*"
     }
 }

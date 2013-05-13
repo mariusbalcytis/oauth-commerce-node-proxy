@@ -156,6 +156,9 @@ module.exports = container
             .set('trust proxy', this.get('app_trust_proxy'));
     })
     .after('app', function(app) {
+        app.use(require('connect-powered-by')(null));
+    })
+    .after('app', function(app) {
         var auth = this.get('middleware.auth');
         var authAsync = this.get('middleware.auth.async');
         var permissions = this.get('middleware.permissions');
