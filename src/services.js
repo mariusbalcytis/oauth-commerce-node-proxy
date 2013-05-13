@@ -120,9 +120,6 @@ module.exports = container
     .set('middleware.body', function() {
         return require("middleware/body")();
     })
-    .set('middleware.auth.async', function() {
-        return require("middleware/auth")(this.get('mac_validator'), true);
-    })
     .set('middleware.permissions', function() {
         return require("middleware/permissions");
     })
@@ -160,81 +157,75 @@ module.exports = container
     })
     .after('app', function(app) {
         var auth = this.get('middleware.auth');
-        var authAsync = this.get('middleware.auth.async');
         var permissions = this.get('middleware.permissions');
         var once = this.get('middleware.once');
         var body = this.get('middleware.body');
         var json = require('express').json();
         var urlEncoded = require('express').urlencoded();
         app
-            .all('*', function(req, res, next) {
-                //console.log(req.url);
-                next();
-            })
-
-            .post('/api/auth/v1/token', once(auth, urlEncoded), permissions(), controllerAction('auth', 'createToken'))
+            .post('/api/auth/v1/token', once(urlEncoded, body), auth, permissions(), controllerAction('auth', 'createToken'))
             .post('/api/auth/v1/client', urlEncoded, controllerAction('auth', 'createClient'))
-            .delete('/api/auth/v1/client', auth, permissions(), controllerAction('auth', 'removeClient'))
+            .delete('/api/auth/v1/client', body, auth, permissions(), controllerAction('auth', 'removeClient'))
 
             .get(
                 '/api/internal/v1/credentials/:id',
-                auth, permissions(['internal_api']),
+                body, auth, permissions(['internal_api']),
                 controllerAction('internal', 'getClientCredentials')
             )
             .get(
                 '/api/internal/v1/credentials',
-                auth, permissions(['internal_api']),
+                body, auth, permissions(['internal_api']),
                 controllerAction('internal', 'getAllCredentialsForClient')
             )
             .post(
                 '/api/internal/v1/credentials',
-                once(json, auth), permissions(['internal_api']),
+                once(json, body), auth, permissions(['internal_api']),
                 controllerAction('internal', 'createClientCredentials')
             )
             .delete(
                 '/api/internal/v1/credentials/:id',
-                auth, permissions(['internal_api']),
+                body, auth, permissions(['internal_api']),
                 controllerAction('internal', 'removeClientCredentials')
             )
             .delete(
                 '/api/internal/v1/credentials',
-                auth, permissions(['internal_api']),
+                body, auth, permissions(['internal_api']),
                 controllerAction('internal', 'removeAllCredentialsForClient')
             )
 
             .get(
                 '/api/internal/v1/application/:id',
-                auth, permissions(['internal_api']),
+                body, auth, permissions(['internal_api']),
                 controllerAction('internal', 'getApplicationPassword')
             )
             .get(
                 '/api/internal/v1/application',
-                auth, permissions(['internal_api']),
+                body, auth, permissions(['internal_api']),
                 controllerAction('internal', 'getAllPasswordsForApplication')
             )
             .post(
                 '/api/internal/v1/application',
-                once(json, auth), permissions(['internal_api']),
+                once(json, body), auth, permissions(['internal_api']),
                 controllerAction('internal', 'createApplicationPassword')
             )
             .delete(
                 '/api/internal/v1/application/:id',
-                auth, permissions(['internal_api']),
+                body, auth, permissions(['internal_api']),
                 controllerAction('internal', 'removeApplicationPassword')
             )
             .delete(
                 '/api/internal/v1/application',
-                auth, permissions(['internal_api']),
+                body, auth, permissions(['internal_api']),
                 controllerAction('internal', 'removeAllPasswordsForApplication')
             )
 
             .post(
                 '/api/internal/v1/code',
-                once(json, auth), permissions(['internal_api']),
+                once(json, body), auth, permissions(['internal_api']),
                 controllerAction('internal', 'createCode')
             )
 
-            .all('*', once(body, auth), controllerAction('proxy', 'proxy'))
+            .all('*', body, auth, controllerAction('proxy', 'proxy'))
         ;
 
     })
